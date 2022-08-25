@@ -8,9 +8,10 @@ Flood fill, also called seed fill, is a flooding algorithm that determines and a
 ![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/flood%20fill%20maze%20end.png)
 ### start clicking on first arbitrary square white
 ![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/1.png)
-### step step until filling all square white
-#### note the rotation of two small square: up, left, down, righ
-#### the small square blue is the current state, the small square green is the next state
+### step step until filling all square white with color yellow
+#### note the rotation of two small square in the direction sequential: up, left, down, righ
+#### the small square blue is the current state, the small square green is the possible next state
+#### note also how the small green square (possible next state) always tends to go up, respecting the directions that have been imposed inside the recursive function, and if the box is black (obstacle) or yellow (box already colored) the code goes to the next direction imposed inside the recursive function (up, left, down, righ)
 ![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/2.png)
 ![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/3.png)
 ![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/4.png)
@@ -44,3 +45,5 @@ Flood fill, also called seed fill, is a flooding algorithm that determines and a
 ### Code for the recursion, uncomment the call to viewPosition() for understanding the logic of the recursion, or comment it for matter of speed.
 ![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/code1.png)
 ![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/code2.png)
+
+### another particular note:<BR>this recursive function limits the movement to the 4 main directions, up, left, down, righ, so when it encounters a black or yellow box the algorithm skips that box, if you had increased the movement to 8 directions for example up, up-left, left, down-left, down etc.. in practice if you also included the diagonals then the code would have skipped the boundaries of the black boxes and filled all the white boxes,<BR>this program can be applied to any game that implies a maze, but if you have to apply it to a paint program to fill shapes it would not be very useful because the pixels to fill would be thousands and the stack used by recursion is not so capable of storing all the states of the pixels, in this case we use other algorithms that involve a virtual stack created in the heap to replace recursion.
