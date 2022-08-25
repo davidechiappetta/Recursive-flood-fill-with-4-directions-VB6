@@ -8,7 +8,9 @@ Flood fill, also called seed fill, is a flooding algorithm that determines and a
 ![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/flood%20fill%20maze%20end.png)
 ### start clicking on first arbitrary square white
 ![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/1.png)
-### step step until to filling all square yellow
+### step step until filling all square white
+### note the rotation of two small square: up, left, down, righ
+### the small square blue is the current state, the small square green is the next state
 ![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/2.png)
 ![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/3.png)
 ![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/4.png)
