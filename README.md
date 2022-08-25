@@ -7,5 +7,5 @@ Flood fill, also called seed fill, is a flooding algorithm that determines and a
 ### end filling free square white with color yellow
 ![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/flood%20fill%20maze%20end.png)
 ### start clicking on first arbitrary square white
-![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/start%20clicking%20maze.png)
+![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/1.png)
   
