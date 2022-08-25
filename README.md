@@ -42,7 +42,7 @@ Flood fill, also called seed fill, is a flooding algorithm that determines and a
 ### end result
 ![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/end.png)
 <BR>
-### Code for the recursion, uncomment the call to viewPosition() for understanding the logic of the recursion, or comment it for matter of speed.
+### Code for the recursion, uncomment the call to viewPosition() and put the breakpoints as shown in the figure for understanding the logic of the recursion, or comment it for matter of speed.
 ![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/code1.png)
 ![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/code2.png)
 
