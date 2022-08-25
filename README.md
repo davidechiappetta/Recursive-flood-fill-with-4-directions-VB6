@@ -4,5 +4,5 @@ Flood fill, also called seed fill, is a flooding algorithm that determines and a
 
 
 ![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/flood%20fill%20maze%20end.png)
-![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/flood fill maze1.png)
+![image](https://raw.githubusercontent.com/davidechiappetta/Recursive-flood-fill-with-4-directions-VB6/main/img/flood%20fill%20maze1.png)
   
