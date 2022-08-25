@@ -1,7 +1,1 @@
-# Prerequisites
-*.d
-
-# Object files
-*.o
-*.txt
-
+img/*
