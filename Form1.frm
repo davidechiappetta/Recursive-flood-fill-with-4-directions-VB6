@@ -26,7 +26,7 @@ Begin VB.Form Form1
       EndProperty
       Height          =   345
       Left            =   9540
-      TabIndex        =   8
+      TabIndex        =   6
       Text            =   "25"
       Top             =   60
       Width           =   645
@@ -47,7 +47,7 @@ Begin VB.Form Form1
       EndProperty
       Height          =   345
       Left            =   7620
-      TabIndex        =   5
+      TabIndex        =   3
       Text            =   "7"
       Top             =   60
       Width           =   645
@@ -65,27 +65,28 @@ Begin VB.Form Form1
       TabIndex        =   2
       Top             =   450
       Width           =   12225
-      Begin VB.Label lblIndicatorNext 
+      Begin VB.Label lblCursor 
+         Alignment       =   2  'Center
          Appearance      =   0  'Flat
-         BackColor       =   &H0000C000&
-         ForeColor       =   &H80000008&
-         Height          =   195
-         Left            =   1140
-         TabIndex        =   4
-         Top             =   330
+         BackColor       =   &H80000005&
+         BackStyle       =   0  'Transparent
+         Caption         =   "a"
+         BeginProperty Font 
+            Name            =   "Wingdings 3"
+            Size            =   18
+            Charset         =   2
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H000000FF&
+         Height          =   585
+         Left            =   8940
+         TabIndex        =   7
+         Top             =   1410
          Visible         =   0   'False
-         Width           =   195
-      End
-      Begin VB.Label lblIndicatorCurr 
-         Appearance      =   0  'Flat
-         BackColor       =   &H00FF0000&
-         ForeColor       =   &H80000008&
-         Height          =   195
-         Left            =   570
-         TabIndex        =   3
-         Top             =   300
-         Visible         =   0   'False
-         Width           =   195
+         Width           =   375
       End
    End
    Begin VB.CommandButton cmdReset 
@@ -136,7 +137,7 @@ Begin VB.Form Form1
       EndProperty
       Height          =   240
       Left            =   8550
-      TabIndex        =   7
+      TabIndex        =   5
       Top             =   120
       Width           =   945
    End
@@ -154,7 +155,7 @@ Begin VB.Form Form1
       EndProperty
       Height          =   240
       Left            =   3870
-      TabIndex        =   6
+      TabIndex        =   4
       Top             =   120
       Width           =   3795
    End
@@ -182,12 +183,13 @@ Private Type t_select
 End Type
 Dim sel As t_select
 
+
+Dim cursCaption(3) As String
+
 Private Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
 
 Private Sub cmdReset_Click()
-    lblIndicatorCurr.Visible = False
-    lblIndicatorNext.Visible = False
-    
+    lblCursor.Visible = False
     resetMap
     resetDraw
 End Sub
@@ -229,63 +231,60 @@ Function floodFill1(ByVal iRow As Long, ByVal iCol As Long) As Boolean
         map(iRow, iCol).dirty = True
 
 
-
-
-
         row = iRow
         col = iCol
         sz = SIZE_SQUARE
         pic.Line (col * sz, row * sz)-(col * sz + sz, row * sz + sz), vbYellow, BF
         
-        
 
-        
         pic.Line (col * sz, row * sz)-(col * sz + sz, row * sz + sz), &H808080, B
         
         
         'DoEvents: Sleep 200
-        viewPosition row, col, row, col
-        
+
 
     End If
-    viewPosition iRow, iCol, iRow - 1, iCol  'UP
-    floodFill1 iRow - 1, iCol  'UP
+    viewPosition iRow, iCol, "UP"
+    floodFill1 iRow - 1, iCol
 
-    viewPosition iRow, iCol, iRow, iCol - 1  'LEFT
-    floodFill1 iRow, iCol - 1  'LEFT
-
-
-    viewPosition iRow, iCol, iRow + 1, iCol  'DOWN
-    floodFill1 iRow + 1, iCol 'DOWN
+    viewPosition iRow, iCol, "LEFT"
+    floodFill1 iRow, iCol - 1
 
 
+    viewPosition iRow, iCol, "DOWN"
+    floodFill1 iRow + 1, iCol
 
-    viewPosition iRow, iCol, iRow, iCol + 1   'RIGHT
-    floodFill1 iRow, iCol + 1 'RIGHT
 
 
-    viewPosition iRow, iCol, iRow, iCol
-    
+    viewPosition iRow, iCol, "RIGHT"
+    floodFill1 iRow, iCol + 1
 
 End Function
 
-Sub viewPosition(ByVal iRowCurr As Long, ByVal iColCurr As Long, ByVal iRowNext As Long, ByVal iColNext As Long)
-    'DoEvents: Sleep 200
-    If lblIndicatorCurr.Visible = False Then lblIndicatorCurr.Visible = True
-    If lblIndicatorNext.Visible = False Then lblIndicatorNext.Visible = True
-    'DoEvents: Sleep (500)
+Sub viewPosition(ByVal iRowCurr As Long, ByVal iColCurr As Long, Optional ByVal direction As String = "")
+    If lblCursor.Visible = False Then lblCursor.Visible = True
     
-    If iRowCurr = iRowNext And iColCurr = iColNext Then
-        lblIndicatorCurr.Left = (SIZE_SQUARE * iColCurr) + (SIZE_SQUARE / 2) - 5
-        lblIndicatorCurr.Top = (SIZE_SQUARE * iRowCurr) + (SIZE_SQUARE / 2) - lblIndicatorCurr.Height / 2
-        lblIndicatorNext.Left = (SIZE_SQUARE * iColNext) + (SIZE_SQUARE / 2) + 2
-        lblIndicatorNext.Top = (SIZE_SQUARE * iRowNext) + (SIZE_SQUARE / 2) - lblIndicatorNext.Height / 2
-    Else
-        lblIndicatorCurr.Left = (SIZE_SQUARE * iColCurr) + (SIZE_SQUARE / 2) - lblIndicatorCurr.Width / 2
-        lblIndicatorCurr.Top = (SIZE_SQUARE * iRowCurr) + (SIZE_SQUARE / 2) - lblIndicatorCurr.Height / 2
-        lblIndicatorNext.Left = (SIZE_SQUARE * iColNext) + (SIZE_SQUARE / 2) - lblIndicatorNext.Width / 2
-        lblIndicatorNext.Top = (SIZE_SQUARE * iRowNext) + (SIZE_SQUARE / 2) - lblIndicatorNext.Height / 2
-    End If
+    Select Case direction
+        Case "UP"
+            lblCursor.caption = Chr(cursCaption(0))
+            lblCursor.Left = (SIZE_SQUARE * iColCurr) '+ (SIZE_SQUARE / 2)
+            lblCursor.Top = (SIZE_SQUARE * iRowCurr) - SIZE_SQUARE / 2
+            
+        Case "DOWN"
+            lblCursor.caption = Chr(cursCaption(1))
+            lblCursor.Left = (SIZE_SQUARE * iColCurr)
+            lblCursor.Top = (SIZE_SQUARE * iRowCurr) + SIZE_SQUARE / 2
+        Case "LEFT"
+            lblCursor.caption = Chr(cursCaption(2))
+            lblCursor.Left = (SIZE_SQUARE * iColCurr) - SIZE_SQUARE / 2
+            lblCursor.Top = (SIZE_SQUARE * iRowCurr)
+            
+        Case "RIGHT"
+            lblCursor.caption = Chr(cursCaption(3))
+            lblCursor.Left = (SIZE_SQUARE * iColCurr) + SIZE_SQUARE / 2
+            lblCursor.Top = (SIZE_SQUARE * iRowCurr)
+    End Select
+
     
 End Sub
 
@@ -311,49 +310,50 @@ Function floodFill2(ByVal iRow As Long, ByVal iCol As Long) As Boolean
 
         map(iRow, iCol).dirty = True
 
-
-
-
         row = iRow
         col = iCol
         sz = SIZE_SQUARE
         pic.Line (col * sz, row * sz)-(col * sz + sz, row * sz + sz), vbYellow, BF
         pic.Line (col * sz, row * sz)-(col * sz + sz, row * sz + sz), &H808080, B
-        
+
     End If
     
-    'viewPosition iRow, iCol, iRow, iCol
-    viewPosition iRow, iCol, iRow - 1, iCol  'UP
+    'Stop
+
+    viewPosition iRow, iCol, "UP"
     If iRow > 0 Then
         If map(iRow - 1, iCol).dirty = False And map(iRow - 1, iCol).obstacle = False Then
             floodFill2 iRow - 1, iCol 'UP
         End If
     End If
 
-    'viewPosition iRow, iCol, iRow, iCol
-    viewPosition iRow, iCol, iRow, iCol - 1  'LEFT
+
+
+    viewPosition iRow, iCol, "LEFT"
     If iCol > 0 Then
         If map(iRow, iCol - 1).dirty = False And map(iRow, iCol - 1).obstacle = False Then
             floodFill2 iRow, iCol - 1 'LEFT
         End If
     End If
     
-    'viewPosition iRow, iCol, iRow, iCol
-    viewPosition iRow, iCol, iRow + 1, iCol  'DOWN
+
+    viewPosition iRow, iCol, "DOWN"
     If iRow < UBound(map, 1) - 1 Then
         If map(iRow + 1, iCol).dirty = False And map(iRow + 1, iCol).obstacle = False Then
             floodFill2 iRow + 1, iCol 'DOWN
         End If
     End If
-    'viewPosition iRow, iCol, iRow, iCol
-    viewPosition iRow, iCol, iRow, iCol + 1   'RIGHT
+    
+
+
+    viewPosition iRow, iCol, "RIGHT"
     If iCol < UBound(map, 2) - 1 Then
         If map(iRow, iCol + 1).dirty = False And map(iRow, iCol + 1).obstacle = False Then
             floodFill2 iRow, iCol + 1 'RIGHT
         End If
     End If
     
-    viewPosition iRow, iCol, iRow, iCol
+
 End Function
 
 
@@ -361,21 +361,26 @@ Private Sub Form_Load()
     'Randomize Timer
     ReDim map(0, 0)
     SIZE_SQUARE = Val(txtSizeSquare.Text)
-    
-    lblIndicatorCurr.Width = 5
-    lblIndicatorCurr.Height = 5
-    lblIndicatorNext.Width = 5
-    lblIndicatorNext.Height = 5
+    lblCursor.Width = SIZE_SQUARE
+    lblCursor.Height = SIZE_SQUARE
+
     
     sel.col = -1
     sel.row = -1
     
+    
+    Set pic.Font = lblCursor.Font
+
+    cursCaption(0) = &H8F '&HE3 '
+    cursCaption(1) = &H90 '&HE4 '
+    cursCaption(2) = &H8D '&HE1 '
+    cursCaption(3) = &H8E '&HE2 '
+
+    
 End Sub
 
 Private Sub cmdMaze_Click()
-    lblIndicatorCurr.Visible = False
-    lblIndicatorNext.Visible = False
-
+    lblCursor.Visible = False
     maze
 End Sub
 
@@ -442,7 +447,7 @@ Private Sub pic_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As
     
     DoEvents
     t = Timer
-    floodFill2 sel.row, sel.col
+    floodFill1 sel.row, sel.col
     t1 = Timer - t
     
 '    MsgBox Round(t1, 6)
